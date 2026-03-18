@@ -14,9 +14,9 @@ LIBFT_DIR = ./libft
 
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRC = main.c parse.c validation.c map_normalize.c player_init.c move_player.c \
-      utils.c recasting.c recasting_utils.c recasting_ray.c recasting_tex.c \
-      draw.c init_game.c parse_utils.c recasting_tex_draw.c \
+SRC = main.c parse.c validation.c map_normalize.c player_init.c move_player.c validation_map.c \
+      utils.c recasting.c recasting_utils.c recasting_ray.c recasting_tex.c validation_utils.c \
+      draw.c init_game.c parse_utils.c recasting_tex_draw.c parsing_utils.c parse_util.c \
 
 OBJ = $(SRC:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: yaamaich <yaamaich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/18 09:47:13 by yaamaich          #+#    #+#             */
-/*   Updated: 2026/03/18 10:27:51 by yaamaich         ###   ########.fr       */
+/*   Updated: 2026/03/18 20:11:05 by yaamaich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,10 @@ static int	parse_component(const char *s, int *i, int *value)
 	return (1);
 }
 
-int	parse_rgb_strict(const char *s, int *color)
+static int	validate_rgb_string(const char *s)
 {
 	int	i;
 	int	commas;
-	int	r;
-	int	g;
-	int	b;
 
 	i = 0;
 	commas = 0;
@@ -61,6 +58,18 @@ int	parse_rgb_strict(const char *s, int *color)
 		i++;
 	}
 	if (commas != 2)
+		return (0);
+	return (1);
+}
+
+int	parse_rgb_strict(const char *s, int *color)
+{
+	int	i;
+	int	r;
+	int	g;
+	int	b;
+
+	if (!validate_rgb_string(s))
 		return (0);
 	i = 0;
 	if (!parse_component(s, &i, &r) || s[i++] != ',')
@@ -82,30 +91,4 @@ void	free_rgb_array(char **rgb)
 	free(rgb[1]);
 	free(rgb[2]);
 	free(rgb);
-}
-
-void	set_color_type(t_game *game, char type, int col)
-{
-	if (type == 'F')
-		game->color_floor = col;
-	else
-		game->color_ceiling = col;
-}
-
-void	find_player_in_line(t_game *game, char *line)
-{
-	int	x;
-
-	x = 0;
-	while (line[x])
-	{
-		if (line[x] == 'N' || line[x] == 'S'
-			|| line[x] == 'E' || line[x] == 'W')
-		{
-			game->player_start_x = x;
-			game->player_start_y = game->map_height;
-			game->player_start_dir = line[x];
-		}
-		x++;
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: yaamaich <yaamaich@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 13:03:12 by albelaiz          #+#    #+#             */
-/*   Updated: 2026/03/18 19:29:55 by yaamaich         ###   ########.fr       */
+/*   Updated: 2026/03/18 20:38:24 by yaamaich         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,5 +122,22 @@ int				exit_game(t_game *game, int status);
 int				handle_args(int ac, char **av);
 int				read_map_file(t_game *game, int fd);
 int				init_game_window(t_game *game);
+int				is_color_id(const char *s);
+int				is_texture_id(const char *s);
+int				is_map_line(const char *line);
+int				is_space_tab(char c);
+void			set_parse_error(t_game *game);
+void			parse_color(t_game *game, char *line, char type);
+void			pars_map_line(t_game *game, char *line);
+void			find_player_in_line(t_game *game, char *line);
+void			set_color_type(t_game *game, char type, int col);
+int				is_player(char c);
+int				is_walkable(char c);
+int				is_valid_map_char(char c);
+void			free_visited(char **visited, int height);
+char			**alloc_visited(t_game *g);
+int				flood_fill_region(t_game *g, char **visited, int y, int x);
+int				check_map_closed(t_game *game);
+int				validate_all(t_game *game);
 
 #endif
