@@ -1,0 +1,54 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   recasting_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yaamaich <yaamaich@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/26 11:45:10 by yaamaich          #+#    #+#             */
+/*   Updated: 2026/03/18 11:18:41 by yaamaich         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3d.h"
+
+void	draw_background(t_game *g)
+{
+	int	w;
+	int	h;
+	int	x;
+	int	y;
+
+	w = (int)g->img_ptr->width;
+	h = (int)g->img_ptr->height;
+	y = 0;
+	while (y < h)
+	{
+		x = 0;
+		while (x < w)
+		{
+			if (y < h / 2)
+				mlx_put_pixel(g->img_ptr, x, y, g->color_ceiling);
+			else
+				mlx_put_pixel(g->img_ptr, x, y, g->color_floor);
+			x++;
+		}
+		y++;
+	}
+}
+
+void	draw_vline(t_game *g, int x, int y0, int y1)
+{
+	uint32_t	color;
+
+	color = 0xFFFFFFFF;
+	if (y0 < 0)
+		y0 = 0;
+	if (y1 >= (int)g->img_ptr->height)
+		y1 = (int)g->img_ptr->height - 1;
+	while (y0 <= y1)
+	{
+		mlx_put_pixel(g->img_ptr, x, y0, color);
+		y0++;
+	}
+}

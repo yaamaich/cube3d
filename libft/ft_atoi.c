@@ -3,51 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamddah <aamddah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albelaiz <albelaiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 10:17:01 by aamddah           #+#    #+#             */
-/*   Updated: 2024/10/31 10:28:00 by aamddah          ###   ########.fr       */
+/*   Created: 2024/10/30 18:42:57 by albelaiz          #+#    #+#             */
+/*   Updated: 2024/11/16 11:48:14 by albelaiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int	ft_check(const char *str, long result, unsigned int i, int sign)
-{
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		if ((result * 10) + (str[i] - 48) < 0 && sign == -1)
-			return (0);
-		else if ((result * 10) + (str[i] - 48) < 0)
-			return (-1);
-		else
-		{
-			result *= 10;
-			result += str[i] - 48;
-			i++;
-		}
-	}
-	return (result *= sign);
-}
-
 int	ft_atoi(const char *str)
 {
-	unsigned int	i;
-	long			result;
-	int				sign;
+	int			i;
+	int			g;
+	long long	r;
 
 	i = 0;
-	result = 0;
-	sign = 1;
-	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+	g = 1;
+	r = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == 32))
+		i++;
+	if ((str[i] == '-') || (str[i] == '+'))
 	{
+		if (str[i] == '-')
+			g *= -1;
 		i++;
 	}
-	if (str[i] == '-' || str[i] == '+')
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		if (str [i] == '-')
-			sign *= -1;
+		r = r * 10 + (str[i] - 48);
+		if (r > LLONG_MAX && g == 1)
+			return (-1);
+		if (r > LLONG_MAX && g == -1)
+			return (0);
 		i++;
 	}
-	return ((int)ft_check(str, result, i, sign));
+	return (r * g);
 }

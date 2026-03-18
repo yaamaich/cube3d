@@ -3,70 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamddah <aamddah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: albelaiz <albelaiz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 10:24:37 by aamddah           #+#    #+#             */
-/*   Updated: 2024/11/03 16:14:55 by aamddah          ###   ########.fr       */
+/*   Created: 2024/11/06 12:39:09 by albelaiz          #+#    #+#             */
+/*   Updated: 2024/11/15 17:14:47 by albelaiz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	ft_put_n(char *str, int n, int nl)
+static int	ft_len_n(int n)
 {
-	int		i;
-	long	d;
+	int	i;
 
 	i = 0;
-	d = n;
-	if (d < 0)
+	if (n < 0)
+		i++;
+	while (n != 0)
 	{
-		str[0] = '-';
-		d *= -1;
+		n = n / 10;
 		i++;
 	}
-	str [nl] = '\0';
-	nl--;
-	while (nl >= i)
-	{
-		str[nl] = (d % 10) + 48;
-		d = d / 10;
-		nl--;
-	}
-}
-
-static int	ft_nbrlen(int n)
-{
-	int		num;
-	long	d;
-
-	num = 1;
-	d = n;
-	if (d < 0)
-		d *= -1;
-	while (d / 10 > 0)
-	{
-		num++;
-		d = d / 10;
-		if (d / 10 == 0)
-		{
-			break ;
-		}
-	}
-	return (num);
+	return (i);
 }
 
 char	*ft_itoa(int n)
 {
+	size_t	i;
 	char	*str;
-	int		nl;
 
-	nl = ft_nbrlen(n);
-	if (n < 0)
-		nl += 1;
-	str = (char *)malloc((nl + 1) * sizeof(char));
+	if (n == 0)
+		return (ft_strdup("0"));
+	else if (n == -2147483648)
+		return (ft_strdup("-2147483648"));
+	i = ft_len_n(n);
+	str = (char *)malloc((i + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
-	ft_put_n (str, n, nl);
+	if (n < 0)
+	{
+		n = n * -1;
+		str[0] = '-';
+	}
+	str[i] = '\0';
+	while (n != 0)
+	{
+		i--;
+		str[i] = n % 10 + 48;
+		n = n / 10;
+	}
 	return (str);
 }

@@ -1,48 +1,40 @@
 NAME = libft.a
 
-SRCS = ft_isspace.c ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strlen.c\
- ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c ft_strlcpy.c ft_strlcat.c \
- ft_toupper.c ft_tolower.c ft_strchr.c ft_strrchr.c ft_strncmp.c ft_memchr.c \
- ft_memcmp.c ft_strnstr.c ft_atoi.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c \
- ft_split.c ft_strtrim.c ft_itoa.c ft_strmapi.c ft_striteri.c ft_putchar_fd.c \
- ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c get_next_line.c get_next_line_utils.c
+SRCS = src/ft_isalpha.c src/ft_isdigit.c src/ft_isalnum.c src/ft_isascii.c \
+       src/ft_isprint.c src/ft_strlen.c src/ft_memset.c src/ft_bzero.c \
+       src/ft_memcpy.c src/ft_memmove.c src/ft_strchr.c src/ft_tolower.c \
+       src/ft_toupper.c src/ft_strrchr.c src/ft_strncmp.c src/ft_strlcpy.c\
+	   src/ft_strncmp.c src/ft_memchr.c src/ft_memcmp.c src/ft_strnstr.c \
+	   src/ft_atoi.c  src/ft_calloc.c src/ft_strdup.c src/ft_strlcat.c src/ft_sqrt.c \
+	   src/ft_putchar_fd.c src/ft_putstr_fd.c src/ft_putnbr_fd.c src/ft_putendl_fd.c\
+	   src/ft_strjoin.c src/ft_substr.c src/ft_strmapi.c src/ft_striteri.c src/ft_strtrim.c src/ft_exit.c\
+	   src/ft_split.c src/ft_itoa.c src/ft_lstnew_bonus.c src/ft_lstadd_front_bonus.c src/ft_lstsize_bonus.c \
+	   src/ft_lstlast_bonus.c src/ft_lstadd_back_bonus.c src/get_next_line.c src/get_next_line_utils.c \
+	   src/ft_putchar.c src/ft_putnbr_max.c src/ft_printf.c src/ft_putunsnbr.c src/ft_putptr.c src/ft_putstr.c \
 
-SRCS_B = ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstadd_back_bonus.c \
-ft_lstlast_bonus.c ft_lstsize_bonus.c ft_lstdelone_bonus.c ft_lstclear_bonus.c \
-ft_lstiter_bonus.c ft_lstmap_bonus.c
+OBJ = $(SRCS:src/%.c=obj/%.o)
 
-CCF = cc -Wall -Wextra -Werror -c
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 
-ARRC = ar rc 
+$(NAME): obj $(OBJ)
+	ar -rcs $(NAME) $(OBJ)
 
-OBJS = ${patsubst %.c, %.o, ${SRCS}}
+all: $(NAME)
 
-OBJS_B = ${patsubst %.c, %.o, ${SRCS_B}}
+obj/%.o: src/%.c src/libft.h obj
+	$(CC) $(CFLAGS) -c $< -o $@
 
-BONUS_FILE = bonus_file
+obj:
+	mkdir -p obj
 
-all : ${NAME}
+clean:
+	rm -rf obj/
 
-${NAME} : ${OBJS}
-		 @${ARRC} ${NAME} ${OBJS}
-		@ranlib ${NAME}
+fclean: clean
+	rm -rf $(NAME)
 
-%.o : %.c libft.h
-	@ ${CCF} $< -o $@
+re: fclean all
 
-bonus : ${BONUS_FILE}
 
-${BONUS_FILE} :	${OBJS_B}
-		${ARRC} ${NAME} ${OBJS_B}
-		ranlib ${NAME}
-		@touch ${BONUS_FILE}
-
-clean :
-		@ rm -f ${OBJS} ${OBJS_B}
-
-fclean : clean
-		@ rm -f ${NAME}
-
-re : fclean all
-
-.PHONY : all bonus clean fclean re
+.PHONY : clean all fclean re
